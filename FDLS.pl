@@ -67,20 +67,20 @@ sub handle_connection {
 	my $band = "(160M|80M|40M|20M|15M|10M|6M|2M|1\.25M|70CM|33CM|23CM)";
 	my $mode = "(PHONE|CW|DIGITAL)";
 	my $callsign = "[A-Z0-9/]*";
-	my $class = "[0-9]{1}[A-Z]{1}";
+	my $class = "[0-9]{1}[A-Z]{1,2}";
 	my $section = "[A-Z]{2,3}";
-	my $operator = "[A-Za-z]*";
+	my $operator = "[A-Za-z0-9]*";
 	do {
 	        $socket->recv($data,2048);
-#	        print "Received from client $peeraddress : $data\n\n";
+	        print "Received from client $peeraddress : $data\n\n";
 
 	        if ($data eq "SENDALLCONTACTS") {
 	                print "Client $peeraddress wants us to send all log entries. We'll tackle that later.\n\n";
 	        }
 	        elsif ($data =~ /^$uuid\;$epoch\;$clientid\;$band\;$mode\;$callsign\;$class\;$section\;$operator\;#$/) {
-	                #Client $peeraddress sent us a log entry\n";
+	                print "Client $peeraddress sent us a log entry\n";
 			#- Check to see if it is already in the database or not, if yes update the record\n";
-			#print "Log data : $data\n\n";
+			print "Log data : $data\n\n";
 			checklog($data);
 	        }
 	        elsif ($data) {
