@@ -25,6 +25,11 @@ my $proto = 'tcp';
 sub checklog {
 	my $sth;
 	my @details = split /;/, $data;
+	# trim trailing spaces from callsign
+	$details[5] =~ s/\s+$//;
+	$details[6] =~ s/\s+$//;
+	$details[7] =~ s/\s+$//;
+	$details[8] =~ s/\s+$//;
 	$sth = $dbh->prepare("SELECT idx FROM log WHERE uuid=?");
 	$sth->execute($details[0]);
 	if (my @row = $sth->fetchrow_array) {
@@ -66,10 +71,10 @@ sub handle_connection {
 	my $clientid = "(A-[0-9]{1,3}|HLFDS)";
 	my $band = "(160M|80M|40M|20M|15M|10M|6M|2M|1\.25M|70CM|33CM|23CM)";
 	my $mode = "(PHONE|CW|DIGITAL)";
-	my $callsign = "[A-Z0-9/]*";
-	my $class = "[0-9]{1}[A-Z]{1,2}";
-	my $section = "[A-Z]{2,3}";
-	my $operator = "[A-Za-z0-9]*";
+	my $callsign = "[A-Z0-9/]*[ ]?";
+	my $class = "[0-9]{1}[A-Z]{1,2}[ ]?";
+	my $section = "[A-Z]{2,3}[ ]?";
+	my $operator = "[A-Za-z0-9]*[ ]?";
 	do {
 	        $socket->recv($data,2048);
 	        print "Received from client $peeraddress : $data\n\n";
