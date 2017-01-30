@@ -13,6 +13,7 @@ $| = 1;
 
 # set up our variables
 my $data;
+my $byte;
 my $dbh;
 my ($listen,$client_socket);
 my ($peeraddress,$peerport);
@@ -25,7 +26,7 @@ my $proto = 'tcp';
 sub checklog {
 	my $sth;
 	my @details = split /;/, $data;
-	# trim trailing spaces from callsign
+	# trim trailing spaces from callsign, class, section, and op
 	$details[5] =~ s/\s+$//;
 	$details[6] =~ s/\s+$//;
 	$details[7] =~ s/\s+$//;
@@ -40,7 +41,9 @@ sub checklog {
 		$sth = $dbh->prepare("INSERT INTO log(uuid,epoch,clientid,band,mode,callsign,class,section,op) VALUES (?,?,?,?,?,?,?,?,?)");
 		$sth->execute($details[0],$details[1],$details[2],$details[3],$details[4],$details[5],$details[6],$details[7],$details[8]) or die;
 	}
+}
 
+sub clientsync {
 }
 
 # creating object interface of IO::Socket::INET modules which internally does 
@@ -49,7 +52,7 @@ $listen = new IO::Socket::INET (
 	LocalHost => $ip,
 	LocalPort => $port,
 	Proto => $proto,
-	Listen => 5,
+	Listen => 10,
 	ReuseAddr => 1
 	) or die "ERROR in Socket Creation : $!\n";
 
@@ -66,38 +69,38 @@ sub handle_connection {
 	my $output = shift || $socket;
 	my $exit = 0;
 	my $peeraddress = $socket->peerhost;
-	my $uuid = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
-	my $epoch = "[0-9]{1,10}";
-	my $clientid = "(A-[0-9]{1,3}|HLFDS)";
-	my $band = "(160M|80M|40M|20M|15M|10M|6M|2M|1\.25M|70CM|33CM|23CM)";
-	my $mode = "(PHONE|CW|DIGITAL)";
-	my $callsign = "[A-Z0-9/]*[ ]?";
-	my $class = "[0-9]{1}[A-Z]{1,2}[ ]?";
-	my $section = "[A-Z]{2,3}[ ]?";
-	my $operator = "[A-Za-z0-9]*[ ]?";
+#	my $uuid = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}";
+#	my $epoch = "[0-9]{1,10}";
+#	my $clientid = "(A-[0-9]{1,3}|HLFDS)";
+#	my $band = "(160M|80M|40M|20M|15M|10M|6M|2M|1\.25M|70CM|33CM|23CM)";
+#	my $mode = "(PHONE|CW|DIGITAL)";
+#	my $callsign = "[A-Z0-9/]*[ ]?";
+#	my $class = "[0-9]{1,2}[A-Z]{1,2}[ ]?";
+#	my $section = "[A-Z]{2,3}[ ]?";
+#	my $operator = "[A-Za-z0-9]*[ ]?";
 	do {
-	        $socket->recv($data,2048);
-	        print "Received from client $peeraddress : $data\n\n";
+	        $socket->recv($byte,1);
+		$data .= "$byte";
 
 	        if ($data eq "SENDALLCONTACTS") {
-	                print "Client $peeraddress wants us to send all log entries. We'll tackle that later.\n\n";
+	                #print "Client $peeraddress wants us to send all log entries. We'll tackle that later.\n\n";
+			clientsync();
+			undef $data;
 	        }
-	        elsif ($data =~ /^$uuid\;$epoch\;$clientid\;$band\;$mode\;$callsign\;$class\;$section\;$operator\;#$/) {
-	                print "Client $peeraddress sent us a log entry\n";
-			#- Check to see if it is already in the database or not, if yes update the record\n";
-			print "Log data : $data\n\n";
+	       # elsif ($data =~ /^$uuid\;$epoch\;$clientid\;$band\;$mode\;$callsign\;$class\;$section\;$operator\;#$/) {
+	        elsif ($data =~ /#$/) {
+	                #print "Client $peeraddress sent us a log entry : $data\n";
 			checklog($data);
+			undef $data;
 	        }
-	        elsif ($data) {
-			print "Client $peeraddress sent us something but it doesn't look like a single log entry\n";
-			print "It's probably a bulk upload of log entries. Do we want to process those, or just\n";
-			print "presume we know about them already?\n";
-			print "Log data : $data\n\n";
+	        elsif ($data or $data eq 0) {
+			#print "I don't know what client $peeraddress sent us (yet?) : $data\n";
 		}
 	        else {
-	                print "Client $peeraddress exited\n";
+	                print "Client $peeraddress exited (or something really weird happened) : $data\n";
+			undef $data;
 	        }
-	} while ($data);
+	} while ($byte or $byte eq 0);
 }
 
 while(my $socket = $listen->accept) {
