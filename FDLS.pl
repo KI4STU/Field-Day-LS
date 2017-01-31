@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-#tcpserver.pl
+#FDLS.pl
 
 use strict;
 use warnings;
@@ -7,6 +7,18 @@ use threads;
 use IO::Socket::INET;
 use DBI;
 use Data::Dumper qw(Dumper);
+
+BEGIN {
+	# Fork.
+	my $pidFile = '/var/run/FDLS.pid';
+	my $pid = fork;
+	if ($pid) { # parent: save PID
+		open PIDFILE, ">$pidFile" or die "can't open $pidFile: $!\n";
+		print PIDFILE $pid;
+		close PIDFILE;
+		exit 0;
+	}
+}
 
 # flush after every write
 $| = 1;
@@ -43,8 +55,6 @@ sub checklog {
 	}
 }
 
-sub clientsync {
-}
 
 # creating object interface of IO::Socket::INET modules which internally does 
 # socket creation, binding and listening at the specified port address.
@@ -84,7 +94,13 @@ sub handle_connection {
 
 	        if ($data eq "SENDALLCONTACTS") {
 	                #print "Client $peeraddress wants us to send all log entries. We'll tackle that later.\n\n";
-			clientsync();
+			my $sth;
+			$sth = $dbh->prepare("SELECT * FROM log WHERE 1"); 
+			$sth->execute();
+			while (my @row = $sth->fetchrow_array) {
+				$socket->send("CONTACT;$row[1];$row[2];$row[3];$row[4];$row[5];$row[6];$row[7];$row[8];$row[9];#");
+#				print("CONTACT;$row[1];$row[2];$row[3];$row[4];$row[5];$row[6];$row[7];$row[8];$row[9];#");
+			}
 			undef $data;
 	        }
 	       # elsif ($data =~ /^$uuid\;$epoch\;$clientid\;$band\;$mode\;$callsign\;$class\;$section\;$operator\;#$/) {

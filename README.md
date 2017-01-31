@@ -20,16 +20,18 @@ of localized AF noise and air pollution. Because of this, it would be beneficial
 alternative power sources.
 
 The communications between the clients and server are fairly simple. Clients occasionally send requests to the server, and send
-new log entries to the server whenever they are made. It is therefore possible to implement a server written in perl on a
+new log entries to the server whenever they are made. The server sends new log entries to all clients as they come in, as well
+as sending all logs to a client when requested. It is therefore possible to implement a server written in perl on a
 linux-based machine. Prevalance, low power consumption, and low cost make the Raspberry Pi an ideal server platform.
 
 The first goal of this script is intended to be listen-only. That is, it will receive logs from multiple clients but
-will ignore requests to send data back to the clients.
+will ignore requests to send data back to the clients. This goal has been met.
 
 The second goal will be bidirectional communication. Ideally, when a client sends a log entry to the server, the server will
 then push that log entry back out to all clients. This will facilitate the native dupe checking inherent in the client software.
 It will also provide additional log backups (the server as well as all clients should end up with a copy of all logs from the
-event).
+event). This goal has been partially met: the server can send log data back to clients upon request, but does not proactively
+send new log entries received from one client to the other clients.
 
 Ensuring only one transceiver is being operated per band is left up to the operators: the HamLog software currently provides no
 provisions for lockout or notification if two stations are set to log on the same band and mode.
