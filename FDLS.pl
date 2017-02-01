@@ -66,7 +66,7 @@ $listen = new IO::Socket::INET (
 	ReuseAddr => 1
 	) or die "ERROR in Socket Creation : $!\n";
 
-print "Waiting for client connection on port $port\n";
+print scalar(gmtime()),": Starting up, waiting for client connection on port $port\n";
 
 # talk to client loggers
 sub handle_connection {
@@ -79,15 +79,16 @@ sub handle_connection {
 	my $output = shift || $socket;
 	my $exit = 0;
 	my $peeraddress = $socket->peerhost;
-#	my $uuid = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}";
-#	my $epoch = "[0-9]{1,10}";
-#	my $clientid = "(A-[0-9]{1,3}|HLFDS)";
-#	my $band = "(160M|80M|40M|20M|15M|10M|6M|2M|1\.25M|70CM|33CM|23CM)";
-#	my $mode = "(PHONE|CW|DIGITAL)";
-#	my $callsign = "[A-Z0-9/]*[ ]?";
-#	my $class = "[0-9]{1,2}[A-Z]{1,2}[ ]?";
-#	my $section = "[A-Z]{2,3}[ ]?";
-#	my $operator = "[A-Za-z0-9]*[ ]?";
+	my $uuid = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}";
+	my $epoch = "[0-9]{1,11}";
+	my $clientid = "(A-[0-9]{1,3}|HLFDS)";
+	my $band = "(160M|80M|40M|20M|15M|10M|6M|2M|1\.25M|70CM|33CM|23CM)";
+	my $mode = "(PHONE|CW|DIGITAL)";
+	my $callsign = "[A-Z0-9/]*[ ]?";
+	my $class = "[0-9]{1,2}[A-Z]{1,2}[ ]?";
+	my $section = "[A-Z]{2,3}[ ]?";
+	my $operator = "[A-Za-z0-9]*[ ]?";
+	print scalar(gmtime()),": Client $peeraddress connected\n";	
 	do {
 	        $socket->recv($byte,1);
 		$data .= "$byte";
@@ -103,17 +104,20 @@ sub handle_connection {
 			}
 			undef $data;
 	        }
-	       # elsif ($data =~ /^$uuid\;$epoch\;$clientid\;$band\;$mode\;$callsign\;$class\;$section\;$operator\;#$/) {
-	        elsif ($data =~ /#$/) {
-	                #print "Client $peeraddress sent us a log entry : $data\n";
+		elsif ($data =~ /^$uuid\;$epoch\;$clientid\;$band\;$mode\;$callsign\;$class\;$section\;$operator\;#$/) {
+	                #print gmtime().": Client $peeraddress sent us a log entry : $data\n");
 			checklog($data);
 			undef $data;
 	        }
+	        elsif ($data =~ /#$/) {
+			print scalar(gmtime()),": Client $peeraddress sent us something, perhaps a mangled log entry? : $data\n";
+			undef $data;
+		}
 	        elsif ($data or $data eq 0) {
-			#print "I don't know what client $peeraddress sent us (yet?) : $data\n";
+			#print gmtime().": I don't know what client $peeraddress sent us (yet?) : $data\n");
 		}
 	        else {
-	                print "Client $peeraddress exited (or something really weird happened) : $data\n";
+	                print scalar(gmtime()),": Client $peeraddress exited (or something really weird happened) : $data\n";
 			undef $data;
 	        }
 	} while ($byte or $byte eq 0);
