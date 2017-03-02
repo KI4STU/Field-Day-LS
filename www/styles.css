@@ -1,0 +1,210 @@
+a.noul {
+  color: red;
+}
+
+a.noul:visited {
+  text-decoration: none;
+  color: red;
+ }
+a.noul:link {
+  text-decoration: none;
+  color: red;
+ }
+
+#header {
+  float: right;
+  width: 39%;
+  height: 300px;
+  border-color: gray;
+  border-style: solid;
+  border-right-width:0px;
+  border-top-width:0px;
+  background-color: black;
+  z-index: 1;
+ }
+
+#header ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#header li {
+  float: left;
+  border: 1px solid #bbb;
+  border-bottom-width: 0;
+  margin: 0;
+}
+
+#header a {
+  text-decoration: none;
+  display: block;
+  background: #eee;
+  padding: 0.24em 1em;
+  color: #00c;
+  width: 3.75em;
+  text-align: center;
+}
+
+#header a:hover {
+  background: #ddf;
+}
+
+#header #tabselected {
+  border-color: black;
+}
+
+#header #tabselected a {
+  position: relative;
+  top: 1px;
+  background: white;
+  color: black;
+  font-weight: bold;
+}
+
+#content {
+  border: 1px solid black;
+  clear: both;
+  padding: 0 1em;
+}
+
+h1 {
+  margin: 0;
+  padding: 0 0 1em 0;
+}
+
+div#contactlog { float: left;
+  width: 60%;
+  height: 450px;
+  background-color: white;
+  border-style: solid;
+  border-color: gray;
+  border-left-width:0px;
+  border-top-width:0px;
+  border-right-width:2px;
+  z-index: 1;
+}
+
+div#dups {
+
+  float: left;
+  position: absolute;
+  top:390;
+  left:45;
+  color:red;
+  z-index:2;
+  background-color: white;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  display:none;
+ }
+
+div#statslog {  float: right;
+  float: right;
+  width: 39%;
+  height: 300px;
+  border-color: gray;
+  border-style: solid;
+  border-right-width:0px;
+  border-top-width:0px;
+  background-color: white;
+  z-index: 1;
+}
+div#messagebox { float: left;
+  width: 60%;
+  height: 150px;
+  background-color: white;
+  border-style: solid;
+  border-color: gray;
+  border-left-width:0px;
+  border-top-width:0px;
+  border-right-width:2px;
+  z-index: 1;
+}
+
+div#loginbox {
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  text-align:center;
+  vertical-align:middle;
+  margin: 0 auto;
+  background-color: white;
+}
+
+div {
+  background-color: black;
+  color: white;
+  font-family: Sans-serif;
+  font-size: 1em;
+}
+
+body {
+  background-color: black;
+}
+
+span#getnewop {
+  display: none;
+
+}
+
+span#getnewmode {
+  display: none;
+}
+span#getnewband {
+  display: none;
+}
+
+table#contacttable {
+  border-collapse: collapse;
+  border-width: 0px;
+}
+
+table#contacttable tr.blank td {
+  text-align: center;
+  background-color: #FFFFFF;
+  border-left-width:0px;
+  border-right-width:0px;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom: none;
+  padding: 0px;
+}
+
+table#contacttable tr.c0 td {
+  text-align: center;
+  background-color: #FCF6CF;
+  border-left-width:0px;
+  border-right-width:0px;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom: none;
+  padding: 0px;
+}
+
+
+table#contacttable tr.c1 td {
+  text-align: center;
+  background-color: #FEFEF2;
+  border-left-width:0px;
+  border-right-width:0px;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom: none;
+  padding: 0px;
+
+}
+
+table#stationlist tr td {
+font-size: 75%;
+ }
+
+div#messagetext {
+text-align: center;
+font-size: 150%;
+ }
+
