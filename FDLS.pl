@@ -29,7 +29,7 @@ my $byte;
 my $dbh;
 my ($listen,$client_socket);
 my ($peeraddress,$peerport);
-my $ip = '192.168.100.202';
+my $ip = '172.16.54.1';
 my $port = '7373';
 my $proto = 'tcp';
 
@@ -82,11 +82,12 @@ sub handle_connection {
 	my $uuid = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}";
 	my $epoch = "[0-9]{1,11}";
 	my $clientid = "(A-[0-9]{1,3}|HLFDS)";
-	my $band = "(160M|80M|40M|20M|15M|10M|6M|2M|1\.25M|70CM|33CM|23CM)";
+	my $band = "(160M|80M|40M|20M|15M|10M|6M|2M|1\.25M|70CM|33CM|23CM|Sat)";
 	my $mode = "(PHONE|CW|DIGITAL)";
-	my $callsign = "[A-Z0-9/]*[ ]?";
-	my $class = "[0-9]{1,2}[A-Z]{1,2}[ ]?";
-	my $section = "[A-Z]{2,3}[ ]?";
+	# accept upper or lower case characters for callsign, class, section, op
+	my $callsign = "[A-Za-z0-9/]*[ ]?";
+	my $class = "[0-9]{1,2}[A-Za-z]{1,2}[ ]?";
+	my $section = "[A-Za-z]{2,3}[ ]?";
 	my $operator = "[A-Za-z0-9]*[ ]?";
 	print scalar(gmtime()),": Client $peeraddress connected\n";	
 	do {
