@@ -1,0 +1,131 @@
+		html {
+			height: 100%;
+		}
+                body {
+                  margin: 50px 0px;
+                  padding: 0px;
+                  font-family: Tahoma, Verdana, Arial, sans-serif;
+                }
+                #content {
+                        width:60%;
+                        margin:0px auto;
+                        padding:0px;
+                }
+		table {
+			font: 12px/1.5em "Helvetica Neue", "Lucida Grande", Verdana, Arial, sans;
+			margin: 0px 0px 0px 0px;
+			padding: 0;
+			border-collapse: collapse;
+		}
+		table th {
+			padding: 5px 5px;
+			border: 1px solid #ccc;
+			background-color: #eee;
+			white-space: nowrap;
+		}
+		table td {
+			padding: 1px 10px;
+			border: 1px solid #ccc;
+			text-align: center;
+		}
+		.nb {
+			border: 0px;
+			padding: 7px 10px 0px 10px;
+		}
+		a {
+			font: 14px/1.5em "Helvetica Neue", "Lucida Grande", Verdana, Arial, sans;
+			text-decoration:underline;
+			color:#000000;
+		}
+		a.th {
+			font: 12px/1.5em "Helvetica Neue", "Lucida Grande", Verdana, Arial, sans;
+			padding: 2px 2px;
+			background-color: #eee;
+			text-decoration:underline;
+			font-weight: bold;
+		}
+		a.td {
+			font: 12px/1.5em "Helvetica Neue", "Lucida Grande", Verdana, Arial, sans;
+			margin: 0px 0px 0px 0px;
+			padding: 0;
+			border-collapse: collapse;
+		}
+		hr {
+			border: 0;
+			width: 100%;
+			color: #000;
+			background-color: #000;
+			height: 2px;
+		}
+		.charthr {
+			border: none 0; 
+			border-top: 1px dashed #000;
+			width: 90%;
+			height: 1px;
+		}
+		.logintitle {
+			font: 64px/1.5em "Helvetica Neue", "Lucida Grande", Verdana, Arial, sans;
+			padding: 0px 0px 0px 0px;
+		}
+		.header {
+			font: 30px/1.5em "Helvetica Neue", "Lucida Grande", Verdana, Arial, sans;
+			padding: 7px 10px 0px 10px;
+		}
+		.mtext {
+			font: 24px/1.5em "Helvetica Neue", "Lucida Grande", Verdana, Arial, sans;
+			text-align: center;
+		}
+		.rtext {
+			font: 14px/1.5em "Helvetica Neue", "Lucida Grande", Verdana, Arial, sans;
+			text-align: center;
+		}
+		.stext {
+			font: 12px/1.5em "Helvetica Neue", "Lucida Grande", Verdana, Arial, sans;
+			text-align: center;
+		}
+		.disclaimer {
+			font: 10px/1.5em "Helvetica Neue", "Lucida Grande", Verdana, Arial, sans;
+			text-align: center;
+			color: #ff4500;
+		}
+		.border {
+			border: 1px solid #ccc;
+			-moz-border-radius: 10px;
+			border-radius: 10px;
+			margin: 10px;
+		}
+		
+                div#importadif
+                {
+                  width: 100%;
+                  margin: 10px 10px 10px 10px;
+                  display: none;
+                }
+                div#loginform
+                {
+                  width: 100%;
+                  margin: 10px 10px 10px 10px;
+                  display: block;
+                }
+                div#whatisthis
+                {
+                  width: 100%;
+                  margin: 10px 10px 10px 10px;
+                  display: block;
+                }
+                div#news
+                {
+                  width: 100%;
+                  margin: 10px 10px 10px 10px;
+                  display: block;
+                }
+                div#signup
+                {
+                  width: 100%;
+                  margin: 10px 10px 10px 10px;
+                  display: none;
+                }
+		div#footer
+		{
+			z-index:99;
+		}

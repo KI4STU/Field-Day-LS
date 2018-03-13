@@ -1,0 +1,11 @@
+[Unit]
+Description=hlfds-announce Service
+After=network.target
+
+[Service]
+ExecStart=/opt/FDLS/hlfds-announce
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+

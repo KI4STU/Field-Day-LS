@@ -1,0 +1,10 @@
+[Unit]
+Description=FDLS Service
+
+[Service]
+ExecStart=/opt/FDLS/FDLS.pl
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+
