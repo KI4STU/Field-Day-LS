@@ -134,9 +134,8 @@ echo "ready?"
 read foo
 clear
 
-# verify this is really necessary
   echo ">>>Enabling hostapd"
-  systemctl enable hostapd.timer
+  sudo systemctl enable hostapd.timer
 
 echo "ready?"
 read foo
