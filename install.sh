@@ -69,16 +69,16 @@ echo
 echo ">>>Installing Auto-Start Files"
 sudo cp -v etc/*.timer /lib/systemd/system/
 sudo cp -v etc/*.service /lib/systemd/system/
+sudo cp -v init.d/FDLS /etc/init.d/
 echo
 echo
 
 echo ">>>Enabling Auto-Start"
-
-sudo systemctl enable hlfds-announce.timer
+#sudo systemctl enable hlfds-announce.timer
 
 echo "Starting services, will auto-start on reboot"
-sudo systemctl start FDLS
-sudo systemctl start hlfds-announce
+#sudo systemctl start FDLS
+#sudo systemctl start hlfds-announce
 echo
 
 echo "Would you like to configure this host as a stand-alone access point?"
@@ -99,11 +99,11 @@ if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
   sudo cp -v etc/udhcpd.conf /etc/
   sudo cp -v /etc/default/udhcpd /etc/default/udhcpd.$DATE
   sudo cp -v etc/udhcpd /etc/default/
-  sudo service udhcpd start
 
   echo ">>>Enabling hostapd"
   sudo systemctl enable hostapd.timer
   sudo systemctl enable hostapd
+  sudo systemctl enable udhcpd
 
   echo -n "Rebooting in "
   k=10
