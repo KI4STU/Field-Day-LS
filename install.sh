@@ -42,6 +42,11 @@ sudo rm /var/www/html/index.html
 echo
 echo
 
+# create database, import table structure
+sudo mysql --execute="CREATE DATABASE IF NOT EXISTS FDLS;"
+sudo mysql --execute="GRANT ALL PRIVILEGES ON FDLS.* TO 'phpmyadmin'@'localhost';
+sudo mysql FDLS < FDLS.sql
+
 # we need to compile a few things:
 # hlfds-announce: Pignology's HamLog discovery application
 # reboot: a small C application which lets us reboot via the web interface
@@ -68,7 +73,7 @@ echo
 echo
 
 echo ">>>Enabling Auto-Start"
-sudo systemctl enable FDLS.timer
+
 sudo systemctl enable hlfds-announce.timer
 
 echo "Starting services, will auto-start on reboot"
@@ -92,10 +97,13 @@ if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
   sudo apt-get -y install udhcpd
   sudo cp -v /etc/udhcpd.conf /etc/udhcpd.conf.$DATE
   sudo cp -v etc/udhcpd.conf /etc/
+  sudo cp -v /etc/default/udhcpd /etc/default/udhcpd.$DATE
+  sudo cp -v etc/udhcpd /etc/default/
   sudo service udhcpd start
 
   echo ">>>Enabling hostapd"
   sudo systemctl enable hostapd.timer
+  sudo systemctl enable hostapd
 
   echo -n "Rebooting in "
   k=10

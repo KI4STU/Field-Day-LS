@@ -72,7 +72,7 @@ print scalar(gmtime()),": Starting up, waiting for client connection on port $po
 sub handle_connection {
 	# talk to the database
 	$dbh = DBI->connect("DBI:mysql:database=FDLS;host=localhost",
-		"root", "fieldday",
+		"phpmyadmin", "fieldday",
 		{'RaiseError' => 1});
 
 	my $socket = shift;
