@@ -44,7 +44,7 @@ echo
 
 # create database, import table structure
 sudo mysql --execute="CREATE DATABASE IF NOT EXISTS FDLS;"
-sudo mysql --execute="GRANT ALL PRIVILEGES ON FDLS.* TO 'phpmyadmin'@'localhost';
+sudo mysql --execute="GRANT ALL PRIVILEGES ON FDLS.* TO 'phpmyadmin'@'localhost';"
 sudo mysql FDLS < FDLS.sql
 
 # we need to compile a few things:
