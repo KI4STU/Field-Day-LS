@@ -43,9 +43,13 @@ echo
 echo
 
 # create database, import table structure
+echo ">>>Installing database table structure"
 sudo mysql --execute="CREATE DATABASE IF NOT EXISTS FDLS;"
 sudo mysql --execute="GRANT ALL PRIVILEGES ON FDLS.* TO 'phpmyadmin'@'localhost';"
 sudo mysql FDLS < FDLS.sql
+
+echo "database import done. next up: compiling stuff. ready?"
+read foo
 
 # we need to compile a few things:
 # hlfds-announce: Pignology's HamLog discovery application
@@ -66,6 +70,9 @@ sudo cp FDLS.pl /opt/FDLS/
 echo
 echo
 
+echo "compiling and installing done. next up: startup files (this proabably needs work). ready?"
+read foo
+
 echo ">>>Installing Auto-Start Files"
 sudo cp -v etc/*.timer /lib/systemd/system/
 sudo cp -v etc/*.service /lib/systemd/system/
@@ -73,13 +80,17 @@ sudo cp -v init.d/FDLS /etc/init.d/
 echo
 echo
 
-echo ">>>Enabling Auto-Start"
+# disabled for now, this might conflict with perl server. can start it manually if we want
+#echo ">>>Enabling Auto-Start"
 #sudo systemctl enable hlfds-announce.timer
 
-echo "Starting services, will auto-start on reboot"
+#echo "Starting services, will auto-start on reboot"
 #sudo systemctl start FDLS
 #sudo systemctl start hlfds-announce
 echo
+
+echo "okay, now to make this thing an AP. ready?"
+read foo
 
 echo "Would you like to configure this host as a stand-alone access point?"
 echo "NOTE: Files modified will be backed up, it will be a manual process to revert."
