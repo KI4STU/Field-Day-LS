@@ -7,13 +7,13 @@ $ret = array();
 $ret['data'] = array();
 
 # connect to mysql server, database
-$fdls = new mysqli("127.0.0.1", "root", "fieldday", "FDLS");
+$fdls = new mysqli("127.0.0.1", "phpmyadmin", "fieldday", "FDLS");
 if ($fdls->connect_errno) {
         echo "Failed to connect to MySQL: (" . $mysqli->connect_errono . ") " . $mysqli->connect_error;
 }
 
 # get results from sql query
-$results = $fdls->query('SELECT * FROM logentries');
+$results = $fdls->query('SELECT * FROM log');
 
 # put results in an array
 while ($row = $results->fetch_array()) {

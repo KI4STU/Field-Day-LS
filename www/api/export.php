@@ -12,13 +12,13 @@ $ret = array();
 $ret['data'] = array();
 
 # connect to mysql server, database
-$fdls = new mysqli("127.0.0.1", "root", "fieldday", "FDLS");
+$fdls = new mysqli("127.0.0.1", "phpmyadmin", "fieldday", "FDLS");
 if ($fdls->connect_errno) {
         echo "Failed to connect to MySQL: (" . $mysqli->connect_errono . ") " . $mysqli->connect_error;
 }
 
 # get sql query results
-$results = $fdls->query('SELECT * FROM logentries');
+$results = $fdls->query('SELECT * FROM log');
 
 # create headers at top of CSV file
 echo "Date,Band,Mode,Callsign,Class,Section,Operator\n";
