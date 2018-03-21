@@ -22,10 +22,11 @@ echo
 # phpmyadmin: a handy interface for handling database things
 # plus, by installing it, we get "mysql" (now mariadb), a current version of PHP, and apache2
 # hostapd: lets us turn the PiZeroW into an Access Point
+# rng-tools: to access the hardware RNG on the Pi (supports hostapd)
 # udhcpd: a lightweight dhcp server
 echo ">>>Validating dependencies."
-echo ">>>apt-get -y install mariadb-server phpmyadmin hostapd"
-sudo apt-get -y install mariadb-server phpmyadmin hostapd
+echo ">>>apt-get -y install mariadb-server phpmyadmin rng-tools hostapd"
+sudo apt-get -y install mariadb-server phpmyadmin rng-tools hostapd
 
 # because why wouldn't you restart apache
 echo ">>>Restarting Apache."
@@ -82,6 +83,7 @@ echo
 
 #echo "Starting services, will auto-start on reboot"
 #sudo systemctl start FDLS
+sudo update-rc.d FDLS defaults
 #sudo systemctl start hlfds-announce
 echo
 
