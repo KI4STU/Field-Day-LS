@@ -24,7 +24,7 @@ $results = $fdls->query('SELECT * FROM log');
 echo "Date,Band,Mode,Callsign,Class,Section,Operator\n";
 
 # populate CSV file with data from database
-while ($row = $results->fetchArray()) {
+while ($row = $results->fetch_array()) {
   $entry = array();
   $epoch = $row['epoch'];
   $dt = new DateTime("@$epoch");  
