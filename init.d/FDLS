@@ -13,7 +13,7 @@
 # Description:       Logging server compatible with HamLog clients
 ### END INIT INFO
 
-# Author: Detrick Merz <ki4stu@arrl.net>
+# Author: Detrick Merz <k4iz@arrl.net>
 #
 
 DESC="Field Day logging server"

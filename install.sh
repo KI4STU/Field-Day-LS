@@ -13,7 +13,7 @@ sudo apt-get update
 
 # stop FDLS (logging server) and hlfds-announce (Pignology's HamLog discovery application)
 echo "Stopping services, if running"
-sudo systemctl stop FDLS
+#sudo systemctl stop FDLS
 sudo systemctl stop hlfds-announce
 echo
 echo
@@ -73,8 +73,6 @@ echo ">>>Installing Auto-Start Files"
 sudo cp -v etc/*.timer /lib/systemd/system/
 sudo cp -v etc/*.service /lib/systemd/system/
 sudo cp -v init.d/FDLS /etc/init.d/
-sudo cp -v /etc/init.d/udhcpd /etc/init.d/udhcpd.$DATE
-sudo cp -v init.d/udhcpd /etc/init.d/
 echo
 echo
 
@@ -106,6 +104,8 @@ if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
   sudo cp -v etc/udhcpd.conf /etc/
   sudo cp -v /etc/default/udhcpd /etc/default/udhcpd.$DATE
   sudo cp -v etc/udhcpd /etc/default/
+  sudo cp -v /etc/init.d/udhcpd /etc/init.d/udhcpd.$DATE
+  sudo cp -v init.d/udhcpd /etc/init.d/
 
   echo ">>>Enabling hostapd"
   sudo systemctl enable hostapd.timer
