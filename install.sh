@@ -13,7 +13,7 @@ sudo apt-get update
 
 # stop FDLS (logging server) and hlfds-announce (Pignology's HamLog discovery application)
 echo "Stopping services, if running"
-#sudo systemctl stop FDLS
+sudo systemctl stop FDLS
 sudo systemctl stop hlfds-announce
 echo
 echo
