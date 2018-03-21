@@ -73,6 +73,8 @@ echo ">>>Installing Auto-Start Files"
 sudo cp -v etc/*.timer /lib/systemd/system/
 sudo cp -v etc/*.service /lib/systemd/system/
 sudo cp -v init.d/FDLS /etc/init.d/
+sudo cp -v /etc/init.d/udhcpd /etc/init.d/udhcpd.$DATE
+sudo cp -v init.d/udhcpd /etc/init.d/
 echo
 echo
 
