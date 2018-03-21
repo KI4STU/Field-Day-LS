@@ -17,7 +17,7 @@
 #
 
 DESC="Field Day logging server"
-DAEMON=/home/pi/Field-Day-LS/FDLS.pl
+DAEMON=/opt/FDLS/FDLS.pl
 PIDFILE=/var/run/FDLS.pid
 NAME=FDLS
 
