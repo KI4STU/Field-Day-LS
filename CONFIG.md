@@ -1,31 +1,24 @@
-System Requirements:
-- perl, mysql
+Installation and configuration is covered in greater detail within the Wiki, but these steps may be enough to get
+things up and running fairly quickly.
 
-Recommended:
-- phpmyadmin, apache, php
-
-The steps below presume you will be using a Raspberry Pi and following the typical Raspberry Pi approach of having
-a script live in the "pi" user's home directory. The init script presumes the path to the server script is
-/home/pi/Field-Day-LS/FDLS.pl. If you decide to put the script in a different location, update the init script
-as needed.
+The steps below presume you will be using a Raspberry Pi with a wifi adapter that supports AP mode (the integrated Pi ZeroW adapter
+works).
 
 Basic steps:
+1) Do a fresh Raspbian install (raspbian-lite is sufficient, perhaps even recommended for energy savings in the field)
+2) Connect to the Pi via ssh or keyboard/monitor
+3) Ensure the Pi has internet access
+4) Install git: sudo apt-get install git
+5) Pull down FDLS: git clone https://github.com/KI4STU/Field-Day-LS
+6) Change to the FDLS directory: cd Field-Day-LS
+7) Run the installer: ./install.sh
+8) Answer a couple questions during the install
 
-1) import FDLS.sql to mysql
-
-2) Move init.d/FDLS to /etc/init.d and add to defaults (execute "update-rc.d FDLS defaults" on Raspberry Pi / Debian)
-
-2) Edit ~/Field-Day-LS/FDLS.pl:
-	a) search for "$dbh = DBI->connect("DBI:mysql:database=FDLS;host=localhost","
-	b) on the next line, change "root" to a username that can access the FDLS database
-	c) on the same line, change "fieldday" to the database user's password
-
-3) Start the server (sudo /etc/init.d/FDLS start)
-
-4) Make contacts, log them using HamLog clients
-
-5) Review /var/log/FDLS.log for any busted contacts. If someone submit a log entry that doesn't seem legitimate
-it will end up here. If the error in the log entry is not egregious (i.e. a simple, obvious typo), you can edit
-the log entry on the client, which should sync back to the server.
-
-4) Use phpmyadmin to export the log table in csv format, then convert to adif for submission
+At this point, the server should be up and running, acting as an Access Point, and ready to accept log data. Next:
+1) Power on a tablet, phone, or mac running HamLog and connect to the server
+2) Make contacts, log them using HamLog clients
+2a) [optional] View live stats on the server: http://172.16.54.1/
+3) At the end of Field Day, review /var/log/FDLS.log for any busted contacts.
+3a) Correct busted contacts as necessary.
+4) [optional] Download logs from the server: http://172.16.54.1/api/export.php
+5) Submit report to ARRL
