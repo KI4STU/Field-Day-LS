@@ -92,10 +92,17 @@ echo "to conserve a little power? Note that a reboot is required for this change
 echo "take effect."
 echo -n "[Y/N]?: "
 read ans
+echo
 if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
-  echo "Are you using a Pi Zero or Pi ZeroW?"
-  echo -n "[Y/N]?: "
-  read ans
+#  echo "Are you using a Pi Zero or Pi ZeroW?"
+#  echo -n "[Y/N]?: "
+#  read ans
+#  echo
+  case `cat /proc/cpuinfo | grep 'Revision' | awk '{print $3}'` in
+    +900092|900093|920093|9000c1)
+      zero=1
+      ;;
+  esac
   echo "What would you like to set the activty LED to do? These options are ordered"
   echo "roughly from most power savings to least. Note: if you want to change this"
   echo "setting in the future, edit /boot/config.txt and comment out (or change) the"
@@ -115,42 +122,42 @@ if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
       echo "Disabling activity LED entirely. Note: this may make it difficult"
       echo "to tell whether the Pi is actually operating or not."
       sudo sh -c 'echo "dtparam=act_led_trigger=none" >> /boot/config.txt'
-      if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
+      if [ "$zero" == "1" ]; then
 	sudo sh -c 'echo "dtparam=act_led_activelow=on" >> /boot/config.txt'
       fi
       ;;
     [2])
       echo "Configuring LED to flash at 1 second intervals"
       sudo sh -c 'echo "dtparam=act_led_trigger=timer" >> /boot/config.txt'
-      if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
+      if [ "$zero" == "1" ]; then
 	sudo sh -c 'echo "dtparam=act_led_activelow=on" >> /boot/config.txt'
       fi
       ;;
     [3])
       echo "Configuring LED to flash like a heartbeat"
       sudo sh -c 'echo "dtparam=act_led_trigger=heartbeat" >> /boot/config.txt'
-      if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
+      if [ "$zero" == "1" ]; then
 	sudo sh -c 'echo "dtparam=act_led_activelow=on" >> /boot/config.txt'
       fi
       ;;
     [4])
       echo "Configuring LED to flash on disk (sdcard) activity"
       sudo sh -c 'echo "dtparam=act_led_trigger=mmc0" >> /boot/config.txt'
-      if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
+      if [ "$zero" == "1" ]; then
 	sudo sh -c 'echo "dtparam=act_led_activelow=on" >> /boot/config.txt'
       fi
       ;;
     [5])
       echo "Configuring LED to flash on wifi activity"
       sudo sh -c 'echo "dtparam=act_led_trigger=rfkill0" >> /boot/config.txt'
-      if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
+      if [ "$zero" == "1" ]; then
 	sudo sh -c 'echo "dtparam=act_led_activelow=on" >> /boot/config.txt'
       fi
       ;;
     [6])
       echo "Configuring LED as a power indicator"
       sudo sh -c 'echo "dtparam=act_led_trigger=backlight" >> /boot/config.txt'
-      if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
+      if [ "$zero" == "1" ]; then
 	sudo sh -c 'echo "dtparam=act_led_activelow=on" >> /boot/config.txt'
       fi
       ;;
@@ -158,6 +165,7 @@ if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
       echo "Doing nothing. LED will remain in its default state"
       ;;
   esac
+  echo
 fi
 
 echo "Would you like to configure this host as a stand-alone access point?"
