@@ -14,6 +14,7 @@ $entry = array();
 
 $modes = array(CW, PHONE, DIGITAL);
 
+# get number of contacts by mode
 foreach ($modes as &$value) {
 
 	if ($result = $fdls->query("SELECT * FROM log WHERE mode = \"$value\"")) {
@@ -22,6 +23,11 @@ foreach ($modes as &$value) {
 	}
 }
 
+# get total number of contacts
+if ($result = $fdls->query("SELECT * FROM log")) {
+	$numcontacts = $result->num_rows;
+	array_push($ret['summary'], "<br>Total: ".$numcontacts);
+}
 
 echo json_encode($ret);
 
