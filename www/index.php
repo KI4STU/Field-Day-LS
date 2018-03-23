@@ -43,9 +43,6 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="logs.php">View Logs</a>
-                    </li>
-                    <li>
                         <a href="https://github.com/KI4STU/Field-Day-LS">About</a>
                     </li>
                     <li>
@@ -74,6 +71,14 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="panel panel-primary">
+                    <div class="panel-heading">Contact Summary</div>
+                    <div class="panel-body"><ul id="summary"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="panel panel-primary">
                     <div class="panel-heading">Operations</div>
                     <div class="panel-body">
                       <button class="btn btn-primary" id="btnExport">Export CSV</button>
@@ -99,17 +104,36 @@
                   </div>
                 </div>
               </div>
+
             </div>
+
             <div class="col-md-8">
               <div class="row">
                 <div class="col-md-12">
                   <div class="panel panel-primary">
-                    <div class="panel-heading">Number of Contacts</div>
-                    <div class="panel-body"><ul id="contacts"></div>
+
+                    <div class="panel-heading">Contacts</div>
+                    <div class="panel-body">
+                      <table id="contacts" class="display" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Band</th>
+                                <th>Mode</th>
+                                <th>Call</th>
+                                <th>Class</th>
+                                <th>Section</th>
+                            </tr>
+                        </thead>
+                      </table>
+                    </div>
+
                   </div>
                 </div>
               </div>
             </div>
+
+
         </div>
         <!-- /.row -->
 
@@ -159,18 +183,31 @@
         setInterval(updateUptime, 10000);
         updateProc();
         setInterval(updateProc, 6000);
-	updateContacts();
-        setInterval(updateContacts, 30000);
+	updateSummary();
+        setInterval(updateSummary, 30000);
+//	updateContacts();
+//       setInterval(updateContacts, 30000);
+
+        cTable = $('#contacts').DataTable( {
+          "ajax": '/api/contacts.php',
+          "order": [[ 0, "desc" ]]
+	});
+	setInterval(updateContacts, 30000);
       });
 
-      function updateContacts() {
+     function updateContacts() {
+        console.log("reloading contacts");
+        cTable.ajax.reload();
+      }
+
+      function updateSummary() {
         sumlist = "";
         $.getJSON( "/api/summary.php", function( data ) {
           $.each( data.summary, function( key, val ) {
             //sumlist = sumlist + '<li>' + val + '</li>';
             sumlist = sumlist + val + '<br>';
           });
-          $("#contacts").html(sumlist);
+          $("#summary").html(sumlist);
         });
       }
 
