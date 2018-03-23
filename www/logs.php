@@ -43,7 +43,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="logs.php">View Logs</a>
+                        <a href="index.php">Summary Stats</a>
                     </li>
                     <li>
                         <a href="https://github.com/KI4STU/Field-Day-LS">About</a>
@@ -104,8 +104,21 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="panel panel-primary">
-                    <div class="panel-heading">Number of Contacts</div>
-                    <div class="panel-body"><ul id="contacts"></div>
+                    <div class="panel-heading">Contacts</div>
+                    <div class="panel-body">
+                      <table id="contacts" class="display" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Band</th>
+                                <th>Mode</th>
+                                <th>Call</th>
+                                <th>Class</th>
+                                <th>Section</th>
+                            </tr>
+                        </thead>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -159,19 +172,17 @@
         setInterval(updateUptime, 10000);
         updateProc();
         setInterval(updateProc, 6000);
-	updateContacts();
+
+        cTable = $('#contacts').DataTable( {
+          "ajax": '/api/contacts.php',
+          "order": [[ 0, "desc" ]]
+        });
         setInterval(updateContacts, 30000);
       });
 
       function updateContacts() {
-        sumlist = "";
-        $.getJSON( "/api/summary.php", function( data ) {
-          $.each( data.summary, function( key, val ) {
-            //sumlist = sumlist + '<li>' + val + '</li>';
-            sumlist = sumlist + val + '<br>';
-          });
-          $("#contacts").html(sumlist);
-        });
+        console.log("reloading contacts");
+        cTable.ajax.reload();
       }
 
       function updateUTC() {
@@ -187,6 +198,8 @@
       function updateProc() {
         newlist = "";
         $.getJSON( "/api/proc.php", function( data ) {
+          //console.log("updateProc got:");
+          //console.log(data);
           $.each( data.proc, function( key, val ) {
             newlist = newlist + '<li>' + val + '</li>';
           });
