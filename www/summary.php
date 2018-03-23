@@ -43,6 +43,9 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
+                        <a href="index.php">Main</a>
+                    </li>
+                    <li>
                         <a href="https://github.com/KI4STU/Field-Day-LS">About</a>
                     </li>
                     <li>
@@ -114,9 +117,10 @@
 
                     <div class="panel-heading">Contacts</div>
                     <div class="panel-body">
-                      <table id="contacts" class="display" cellspacing="0" width="100%">
+                      <table id="contacts" class="display" cellspacing="0" width="100%" data-page-size="25">
                         <thead>
                             <tr>
+                                <th data-visible="false">Order</th>
                                 <th>Band</th>
                                 <th>CW</th>
                                 <th>Phone</th>

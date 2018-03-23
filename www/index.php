@@ -43,6 +43,9 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
+                        <a href="summary.php">Summary</a>
+                    </li>
+                    <li>
                         <a href="https://github.com/KI4STU/Field-Day-LS">About</a>
                     </li>
                     <li>
