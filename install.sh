@@ -94,15 +94,14 @@ echo -n "[Y/N]?: "
 read ans
 echo
 if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
-#  echo "Are you using a Pi Zero or Pi ZeroW?"
-#  echo -n "[Y/N]?: "
-#  read ans
-#  echo
+  # determine if the hardware is a Pi Zero model. this model uses an inverted
+  # signal for the LED (high is off, low is on), so an extra dtparam is needed
   case `cat /proc/cpuinfo | grep 'Revision' | awk '{print $3}'` in
     +900092|900093|920093|9000c1)
       zero=1
       ;;
   esac
+
   echo "What would you like to set the activty LED to do? These options are ordered"
   echo "roughly from most power savings to least. Note: if you want to change this"
   echo "setting in the future, edit /boot/config.txt and comment out (or change) the"
