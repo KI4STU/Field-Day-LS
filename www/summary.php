@@ -43,7 +43,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="summary.php">Summary</a>
+                        <a href="index.php">Main</a>
                     </li>
                     <li>
                         <a href="https://github.com/KI4STU/Field-Day-LS">About</a>
@@ -120,12 +120,11 @@
                       <table id="contacts" class="display" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-				<th>Time</th>
+                                <th data-visible="false">Order</th>
                                 <th>Band</th>
-                                <th>Mode</th>
-                                <th>Call</th>
-                                <th>Class</th>
-                                <th>Section</th>
+                                <th>CW</th>
+                                <th>Phone</th>
+                                <th>Digital</th>
                             </tr>
                         </thead>
                       </table>
@@ -192,7 +191,7 @@
 //       setInterval(updateContacts, 30000);
 
         cTable = $('#contacts').DataTable( {
-          "ajax": '/api/contacts.php',
+          "ajax": '/api/bandsummary.php',
           "order": [[ 0, "desc" ]]
 	});
 	setInterval(updateContacts, 30000);
