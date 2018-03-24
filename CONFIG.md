@@ -9,7 +9,7 @@ Basic steps:
 2) Connect to the Pi via ssh or keyboard/monitor
 3) Ensure the Pi has internet access
 4) Install git: sudo apt-get install git
-5) Pull down FDLS: git clone https://github.com/KI4STU/Field-Day-LS
+5) Pull down FDLS: git clone https://github.com/KI4STU/Field-Day-LS.git
 6) Change to the FDLS directory: cd Field-Day-LS
 7) Run the installer: ./install.sh
 8) Answer a couple questions during the install
