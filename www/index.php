@@ -215,7 +215,7 @@
       }
 
       function updateUTC() {
-        $("#currUTC").text("UTC Time: " + moment().format('YYYY-MM-DDTHH:mm:ss'));
+        $("#currUTC").text("UTC Time: " + moment().format('YYYY-MM-DD HH:mm:ss'));
       }
 
       function updateUptime() {

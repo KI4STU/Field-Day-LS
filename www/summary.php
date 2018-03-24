@@ -117,7 +117,7 @@
 
                     <div class="panel-heading">Contacts</div>
                     <div class="panel-body">
-                      <table id="contacts" class="display" cellspacing="0" width="100%" data-page-size="25">
+                      <table id="contacts" class="display" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th data-visible="false">Order</th>
@@ -214,7 +214,7 @@
       }
 
       function updateUTC() {
-        $("#currUTC").text("UTC Time: " + moment().format('YYYY-MM-DDTHH:mm:ss'));
+        $("#currUTC").text("UTC Time: " + moment().format('YYYY-MM-DD HH:mm:ss'));
       }
 
       function updateUptime() {
