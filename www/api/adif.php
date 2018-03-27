@@ -34,18 +34,19 @@ while ($row = $results->fetch_array()) {
   echo "<QSO_DATE:8>".$dt->format('Ymd');
   echo "<TIME_ON:6>".$dt->format('His');
   echo "<TIME_OFF:6>".$dt->format('His');
-  echo "<BAND:".strlen($row['band']).">".$row['band'];
+  echo "<BAND:".strlen($row['band']).">".strtoupper($row['band']);
 # NOTE: HamLog currently logs modes (phone, ditigal) which are *not*
 # compliant with the ADIF standard! For now we'll dump the data, but
 # your logging software (or LoTW) may not like it
-  echo "<MODE:".strlen($row['mode']).">".$row['mode'];
-  echo "<CALL:".strlen($row['callsign']).">".$row['callsign'];
-  echo "<CLASS:".strlen($row['class']).">".$row['class'];
-  echo "<ARRL_SECT:".strlen($row['section']).">".$row['section'];
-  echo "<OPERATOR:".strlen($row['section']).">".$row['section'];
+  echo "<MODE:".strlen($row['mode']).">".strtoupper($row['mode']);
+  echo "<CALL:".strlen($row['callsign']).">".strtoupper($row['callsign']);
+  echo "<CLASS:".strlen($row['class']).">".strtoupper($row['class']);
+  echo "<ARRL_SECT:".strlen($row['section']).">".strtoupper($row['section']);
+  echo "<OPERATOR:".strlen($row['op']).">".strtoupper($row['op']);
 # edit the callsign below to match that of your station (usually
 # your club callsign during Field Day). Be sure to change the "5"
 # to the number of characters in your callsign (e.g. K4IZ = 4, KI4STU = 6)
-  echo "<STATION_CALLSIGN:5>w4owl\n";
+  echo "<STATION_CALLSIGN:5>W4OWL";
+  echo "<eor>\n";
 }
 ?>
