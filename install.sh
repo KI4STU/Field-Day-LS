@@ -10,9 +10,11 @@ echo
 # ensure apt is up to date (we're going to install some stuff in a minute, and it needs to be)
 echo ">>>Updating apt"
 sudo apt-get update
+echo
+echo
 
 # stop FDLS (logging server) and hlfds-announce (Pignology's HamLog discovery application)
-echo "Stopping services, if running"
+echo ">>>Stopping services, if running"
 sudo systemctl stop FDLS
 sudo systemctl stop hlfds-announce
 echo
@@ -27,6 +29,8 @@ echo
 echo ">>>Validating dependencies."
 echo ">>>apt-get -y install mariadb-server phpmyadmin rng-tools hostapd"
 sudo apt-get -y install mariadb-server phpmyadmin rng-tools hostapd
+echo
+echo
 
 # because why wouldn't you restart apache
 echo ">>>Restarting Apache."
@@ -48,6 +52,8 @@ echo ">>>Installing database table structure"
 sudo mysql --execute="CREATE DATABASE IF NOT EXISTS FDLS;"
 sudo mysql --execute="GRANT ALL PRIVILEGES ON FDLS.* TO 'phpmyadmin'@'localhost';"
 sudo mysql FDLS < FDLS.sql
+echo
+echo
 
 
 # we need to compile a few things:
@@ -86,6 +92,7 @@ echo
 sudo update-rc.d FDLS defaults
 #sudo systemctl start hlfds-announce
 echo
+echo
 
 echo "If you are using a Pi, would you like to change the function of the activity LED"
 echo "to conserve a little power? Note that a reboot is required for this change to"
@@ -108,9 +115,9 @@ if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
   echo "line near the bottom of the file that looks like \"dtparam=act_led_trigger=\"."
   echo ""
   echo "1: Disable activity LED entirely"
-  echo "2: Flash at 1 second intervals"
+  echo "2: Flash on SD card activity (disk activity)"
   echo "3: Heartbeat flash (1-0-1-00000)"
-  echo "4: Flash on SD card activity (disk activity)"
+  echo "4: Flash at 1 second intervals"
   echo "5: Flash on wifi activity"
   echo "6: Always on (power indicator)"
   echo "7: I changed my mind, I don't want to do this anymore"
@@ -126,8 +133,8 @@ if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
       fi
       ;;
     [2])
-      echo "Configuring LED to flash at 1 second intervals"
-      sudo sh -c 'echo "dtparam=act_led_trigger=timer" >> /boot/config.txt'
+      echo "Configuring LED to flash on disk (sdcard) activity"
+      sudo sh -c 'echo "dtparam=act_led_trigger=mmc0" >> /boot/config.txt'
       if [ "$zero" == "1" ]; then
 	sudo sh -c 'echo "dtparam=act_led_activelow=on" >> /boot/config.txt'
       fi
@@ -140,8 +147,8 @@ if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
       fi
       ;;
     [4])
-      echo "Configuring LED to flash on disk (sdcard) activity"
-      sudo sh -c 'echo "dtparam=act_led_trigger=mmc0" >> /boot/config.txt'
+      echo "Configuring LED to flash at 1 second intervals"
+      sudo sh -c 'echo "dtparam=act_led_trigger=timer" >> /boot/config.txt'
       if [ "$zero" == "1" ]; then
 	sudo sh -c 'echo "dtparam=act_led_activelow=on" >> /boot/config.txt'
       fi
@@ -178,6 +185,8 @@ if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
   sudo cp -v etc/hostapd.conf /etc/hostapd/
   sudo cp -v /etc/dhcpcd.conf /etc/dhcpcd.conf.$DATE
   sudo cp -v etc/dhcpcd.conf /etc/
+  sudo cp -v /etc/network/interfaces /etc/network/interfaces.$DATE
+  sudo cp -v etc/interfaces /etc/network/
 
   echo ">>>Installing udhcpd"
   sudo apt-get -y install udhcpd
@@ -191,6 +200,7 @@ if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
   echo ">>>Enabling hostapd"
   sudo systemctl enable hostapd.timer
   sudo systemctl enable hostapd
+  sudo systemctl enable udhcpd.timer
   sudo systemctl enable udhcpd
 
   echo -n "Rebooting in "
