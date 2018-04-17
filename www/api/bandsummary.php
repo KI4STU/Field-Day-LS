@@ -31,9 +31,6 @@ foreach ($bands as &$bvalue) {
 	}
 	array_push($ret['data'], $entry);
 }
-/*
-*/
-
 
 echo json_encode($ret);
 
