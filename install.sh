@@ -203,17 +203,31 @@ if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
   sudo systemctl enable udhcpd.timer
   sudo systemctl enable udhcpd
 
-  echo -n "Rebooting in "
-  k=10
-  while [ $k -gt 0 ]; do
-    echo -n "$k ";
-    sleep 1
-    k=`expr $k - 1`
-  done
   echo
-  echo "Reboot"
-  sudo reboot
+fi
+echo "Would you like to configure this host as an NTP server?"
+echo "NOTE: If you have a USB GPS receiver plugged in and the logging network"
+echo "does not have direct Internet access, this is probably a good idea."
+echo -n "[Y/N]?: "
+read ans
+if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
+  echo "Configuring ntp server."
+  sudo cp -v /etc/ntp.conf /etc/ntp.conf.$DATE
+  sudo cp -v /etc/default/gpsd.conf /etc/default/gpsd.conf.$DATE
+  echo ">>>Installing gps and ntp server"
+  sudo apt-get -y install ntp gpsd gpsd-clients
+  sudo cp -v etc/ntp.conf /etc/
+  sudo cp -v etc/gpsd.conf /etc/default/
 fi
 
-echo "All set, point HamLog to this host."
+echo "All set, point HamLog clients to this host after reboot."
 echo
+echo -n "Rebooting in "
+countdown=10
+while [ $countdown -gt 0 ]; do
+  echo -n "$countdown ";
+  sleep 1
+  countdown=`expr $countdown - 1`
+done
+echo "Rebooting..."
+sudo reboot
