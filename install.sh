@@ -187,6 +187,9 @@ if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
   sudo cp -v etc/dhcpcd.conf /etc/
   sudo cp -v /etc/network/interfaces /etc/network/interfaces.$DATE
   sudo cp -v etc/interfaces /etc/network/
+  # issue #16
+  sudo systemctl unmask hostapd
+  sudo systemctl enable hostapd
 
   echo ">>>Installing udhcpd"
   sudo apt-get -y install udhcpd
@@ -196,6 +199,8 @@ if [ "`echo $ans | tr [:upper:] [:lower:]`" == "y" ]; then
   sudo cp -v etc/udhcpd /etc/default/
   sudo cp -v /etc/init.d/udhcpd /etc/init.d/udhcpd.$DATE
   sudo cp -v init.d/udhcpd /etc/init.d/
+  # issue #15
+  sudo systemctl disable dhcpcd
 
   echo ">>>Enabling hostapd"
   sudo systemctl enable hostapd.timer

@@ -29,7 +29,9 @@ my $byte;
 my $dbh;
 my ($listen,$client_socket);
 my ($peeraddress,$peerport);
-my $ip = '172.16.54.1';
+# issue #17
+#my $ip = '172.16.54.1';
+my $ip = '0.0.0.0';
 my $port = '7373';
 my $proto = 'tcp';
 
