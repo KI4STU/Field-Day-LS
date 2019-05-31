@@ -91,6 +91,7 @@ sub handle_connection {
 	my $class = "[0-9]{1,2}[A-Za-z]{1,2}[ ]?";
 	my $section = "[A-Za-z]{2,3}[ ]?";
 	my $operator = "[A-Za-z0-9]*[ ]?";
+	my $comment = "[^;]*";
 	print scalar(gmtime()),": Client $peeraddress connected\n";	
 	do {
 	        $socket->recv($byte,1);
@@ -108,6 +109,11 @@ sub handle_connection {
 			undef $data;
 	        }
 		elsif ($data =~ /^$uuid\;$epoch\;$clientid\;$band\;$mode\;$callsign\;$class\;$section\;$operator\;#$/) {
+	                #print gmtime().": Client $peeraddress sent us a log entry : $data\n");
+			checklog($data);
+			undef $data;
+	        }
+		elsif ($data =~ /^$uuid\;$epoch\;$clientid\;$band\;$mode\;$callsign\;$class\;$section\;$operator\;$comment;#$/) {
 	                #print gmtime().": Client $peeraddress sent us a log entry : $data\n");
 			checklog($data);
 			undef $data;
