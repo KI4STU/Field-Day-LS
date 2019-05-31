@@ -97,6 +97,7 @@ sub handle_connection {
 	        $socket->recv($byte,1);
 		$data .= "$byte";
 
+		# a "pull all" was done by the client
 	        if ($data eq "SENDALLCONTACTS") {
 	                #print "Client $peeraddress wants us to send all log entries. We'll tackle that later.\n\n";
 			my $sth;
@@ -108,16 +109,19 @@ sub handle_connection {
 			}
 			undef $data;
 	        }
+		# log data received
 		elsif ($data =~ /^$uuid\;$epoch\;$clientid\;$band\;$mode\;$callsign\;$class\;$section\;$operator\;#$/) {
 	                #print gmtime().": Client $peeraddress sent us a log entry : $data\n");
 			checklog($data);
 			undef $data;
 	        }
+		# log data received with comment (iOS device)
 		elsif ($data =~ /^$uuid\;$epoch\;$clientid\;$band\;$mode\;$callsign\;$class\;$section\;$operator\;$comment;#$/) {
 	                #print gmtime().": Client $peeraddress sent us a log entry : $data\n");
 			checklog($data);
 			undef $data;
 	        }
+		# something we don't understand was received
 	        elsif ($data =~ /#$/) {
 			print scalar(gmtime()),": Client $peeraddress sent us something, perhaps a mangled log entry? : $data\n";
 			undef $data;
