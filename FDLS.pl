@@ -116,7 +116,7 @@ sub handle_connection {
 			undef $data;
 	        }
 		# log data received with comment (iOS device)
-		elsif ($data =~ /^$uuid\;$epoch\;$clientid\;$band\;$mode\;$callsign\;$class\;$section\;$operator\;$comment;#$/) {
+		elsif ($data =~ /^$uuid\;$epoch\;$clientid\;$band\;$mode\;$callsign\;$class\;$section\;$operator\;$comment#$/) {
 	                #print gmtime().": Client $peeraddress sent us a log entry : $data\n");
 			checklog($data);
 			undef $data;
