@@ -35,3 +35,5 @@ send new log entries received from one client to the other clients.
 
 Ensuring only one transceiver is being operated per band is left up to the operators: the native HamLog software currently provides no
 provisions for lockout or notification if two stations are set to log on the same band and mode.
+
+Do you use FDLS? Have you considered it? Have you tried and failed? Drop me a note! I'd love to know if it's useful (or not) to others.
